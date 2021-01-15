@@ -3,6 +3,7 @@
 **/log/
 **/logs/
 **/lib/
+**/agent-test/
 *.tgz
 *.iml
 # Compiled class file
