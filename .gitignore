@@ -1,6 +1,7 @@
 **/.idea/
 **/.gradle/
 **/log/
+**/logs/
 **/lib/
 *.tgz
 *.iml
