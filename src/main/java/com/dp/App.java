@@ -70,7 +70,7 @@ public class App {
 
     System.out.println("--> alter system switch logfile");
     oracleConnect.switchLogfile();
-    oracleConnect.switchLogfile();
+//    oracleConnect.switchLogfile();
 
     System.out.println("--> copy logfile");
     copyLogfile(oracleConnect, startSequence, endSequence);

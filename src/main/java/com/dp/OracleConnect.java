@@ -6,10 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Properties;
 import javax.sql.DataSource;
 import org.apache.logging.log4j.LogManager;
@@ -19,6 +16,10 @@ public class OracleConnect {
   private static Logger logger = LogManager.getLogger(OracleConnect.class);
 
   private DataSource dataSource;
+
+  private String url;
+  private String username;
+  private String password;
 
   public OracleConnect() {
 
@@ -48,16 +49,21 @@ public class OracleConnect {
       dataSource.setMinIdle(10);
       dataSource.setMaxWait(2000);
       this.dataSource = dataSource;
+
+      url = dbURL;
+      username = "DP_CI";
+      password = "datapipeline123";
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
   }
 
-  public Connection getConnection() throws SQLException {
-    return dataSource.getConnection();
+  public Connection getConnection() throws Exception {
+    Class.forName("oracle.jdbc.OracleDriver");
+    return DriverManager.getConnection(url, username, password);
   }
 
-  public long getMaxSequence() throws SQLException {
+  public long getMaxSequence() throws Exception {
 
     try (Connection connection = getConnection();
         Statement statement = connection.createStatement()) {
@@ -92,7 +98,7 @@ public class OracleConnect {
     System.out.println();
   }
 
-  public void switchLogfile() throws SQLException {
+  public void switchLogfile() throws Exception {
     try (Connection connection = getConnection();
         Statement statement = connection.createStatement()) {
       statement.execute("alter system switch logfile");
